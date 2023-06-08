@@ -14,7 +14,7 @@ class NoteSerializerTestCase(APITestCase):
     
     def test_contains_expected_fields(self):
         data = self.serializer.data
-        self.assertEqual(set(data.keys()), set(['id', 'title', 'content', 'related', 'url']))
+        self.assertEqual(set(data.keys()), set(['title', 'content', 'related', 'url', 'polymorphic_ctype']))
     
     def test_prelated_field_content(self):
         data = self.serializer.data
