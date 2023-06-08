@@ -1,16 +1,12 @@
 from django.contrib import admin
-from .models import Resource
-from .models import TextResource
 from .models import Note
-from .models import VideoResource
 from .models import Author
-from .models import Book
+from .models import Book, YoutubeVideo, Podcast, PodcastEpisode
 
 
-# Register your models here.
-admin.site.register(Resource)
-admin.site.register(TextResource)
 admin.site.register(Note)
-admin.site.register(VideoResource)
 admin.site.register(Author)
 admin.site.register(Book)
+admin.site.register(YoutubeVideo)
+admin.site.register(Podcast)
+admin.site.register(PodcastEpisode)

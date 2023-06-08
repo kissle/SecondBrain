@@ -2,6 +2,10 @@ from .resource_serializers import *
 from .text_resource_serializers import *
 from .note_serializers import *
 from .video_resource_serializers import * 
-# from .audio_resources import *
+from .youtube_video_serializers import *
+from .audio_resource_serializers import *
+from .podcast_serializers import *
+from .podcast_episode_serializers import *
 from .author_serializers import *
 from .book_serializers import *
+from .content_type_serializers import *

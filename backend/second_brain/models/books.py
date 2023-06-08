@@ -4,7 +4,7 @@ from .authors import Author
 
 class Book(TextResource):
     subtitle = models.CharField(max_length=128)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    authors = models.ManyToManyField(Author)
     isbn = models.CharField(max_length=13)
     
     def __str__(self):

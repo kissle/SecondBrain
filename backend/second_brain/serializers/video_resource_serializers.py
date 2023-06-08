@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from ..models.video_resources import VideoResource
+from .resource_serializers import ResourceSerializer
 
-class VideoResourceSerializer(serializers.HyperlinkedModelSerializer):
+class VideoResourceSerializer(ResourceSerializer):
     class Meta:
         model = VideoResource
         fields = ['id', 'url', 'title']

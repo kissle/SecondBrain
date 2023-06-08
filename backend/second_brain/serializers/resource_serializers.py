@@ -3,10 +3,13 @@ from rest_framework import serializers
 from ..models import Resource
         
 class ResourceSerializer(serializers.HyperlinkedModelSerializer):
+    related = serializers.SerializerMethodField()
     
     class Meta:
         model = Resource
-        fields = ['id', 'related', 'url']
+        # fields = ['id', 'related', 'url']
+        fields = '__all__'
+        depth = 1
     
     url = serializers.HyperlinkedIdentityField(
         view_name='resource-detail',
@@ -23,6 +26,7 @@ class ResourceSerializer(serializers.HyperlinkedModelSerializer):
             urls = [request.build_absolute_uri(reverse(f'{related.__class__.__name__.lower()}-detail', args=[related.pk])) for related in obj.related.all()]
             
             return urls
-
+        else:
+            return []
 
     
