@@ -1,0 +1,9 @@
+<p>note works!</p>
+<h2>ID: {{ id$ | async }}</h2>
+
+<!-- Output the different properties of note$ in different elements -->
+<h3>Title: {{ (note$ | async)?.title }}</h3>
+<p>Content: {{ (note$ | async)?.content }}</p>
+
+
+ 
