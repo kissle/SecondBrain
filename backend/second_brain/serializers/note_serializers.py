@@ -7,8 +7,8 @@ class NoteSerializer(ResourceSerializer):
 
     class Meta:
         model = Note
-        # fields = ['id', 'title', 'content', 'url', 'related', 'polymorphic_ctype']
-        fields = '__all__'
+        fields = ['id', 'title', 'content', 'url', 'related', 'polymorphic_ctype']
+        # fields = '__all__'
         depth = 1
         
     url = serializers.HyperlinkedIdentityField(
