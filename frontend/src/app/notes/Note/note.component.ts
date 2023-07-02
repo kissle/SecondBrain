@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map, switchMap, tap } from 'rxjs';
 import { Note } from '../../models/note.model'
-import { selectSelectedNote } from '../../selectors/notes/notes.selectors';
+import { selectAllNotes, selectSelectedNote } from '../../selectors/notes/notes.selectors';
 import { NotesService } from '../../services/notes.service'
-import { loadAllNotes } from '../../actions/notes/notes.actions';
+import { loadAllNotes, selectNote } from '../../actions/notes/notes.actions';
 
 
 
@@ -16,21 +16,35 @@ import { loadAllNotes } from '../../actions/notes/notes.actions';
 })
 export class NoteComponent implements OnInit {
   id$: Observable<number>;
-  note$: Observable<Note> = this.store.select(selectSelectedNote)
+  note$: Observable<Note | null> = this.store.select(selectSelectedNote)
+  // notes$: Observable<Note[]>
 
   constructor (
     private route: ActivatedRoute,
     private store: Store,
     private notesService: NotesService
   ) {
-    this.id$ = this.route.params.pipe(map(params => params['id']));
-
-    this.note$.subscribe(note => console.log(note))
-
+    this.id$ = this.route.params.pipe(
+      map(params => params['id']),
+      tap(id => {
+        this.store.dispatch(selectNote({id: Number(id)}))
+    }));
+    // this.note$.subscribe(note => console.log(note))
+    // this.notes$ = combineLatest([this.id$, this.store.select(selectAllNotes)]).pipe(
+    //   map(([id, notes]) => {
+    //     if (notes.length > 0) {
+    //       console.log(id, notes)
+    //       return notes.filter(note => note.id === Number(id))
+    //     } else {
+    //       return []
+    //     }
+    //   }
+    // ))
   }
 
   ngOnInit() {
-    // this.notesService.getAllNotes().subscribe(notes => console.log(notes))
+
+    // this.store.dispatch(selectNote({id: this.id}))
     this.store.dispatch(loadAllNotes());
   }
 

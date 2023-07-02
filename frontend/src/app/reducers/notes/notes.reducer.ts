@@ -1,19 +1,19 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, on, select } from '@ngrx/store';
 
 import { Note } from '../../models/note.model';
-import { NotesActions, loadAllNotesSuccess } from '../../actions/notes/notes.actions';
+import { NotesActions, loadAllNotesSuccess, selectNote } from '../../actions/notes/notes.actions';
 
 export const notesFeatureKey = 'notes';
 
 export interface NoteState {
   status: string;
-  selectedNote: Note;
+  selectedNote: Note | null;
   notes: Note[];
 }
 
 export const initialState: NoteState = {
   status: 'initial',
-  selectedNote: new Note(0, 'Super Title', 'Super Content'),
+  selectedNote: null,
   notes: []
 };
 
@@ -23,9 +23,13 @@ export const reducer = createReducer(
   on(loadAllNotesSuccess, (state, { notes }) => ({
     ...state,
     notes: notes,
-    status: 'success',
-    selectedNote: notes[notes.length - 1]
+    status: 'success'
   })), 
+  on(selectNote, (state, { id }) => ({
+    ...state,
+    selectedNote: state.notes.filter(note => note.id === id)[0],
+  }))
+  
 );
 
 export const notesFeature = createFeature({

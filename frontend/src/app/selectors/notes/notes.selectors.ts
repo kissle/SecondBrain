@@ -14,3 +14,8 @@ export const selectSelectedNote = createSelector(
   selectNotesState,
   (state: fromNotes.NoteState) => state.selectedNote
 );
+
+export const selectAllNotes = createSelector(
+  selectNotesState,
+  (state: fromNotes.NoteState) => state.notes
+);

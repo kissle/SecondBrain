@@ -11,11 +11,10 @@ export class NotesEffects {
 
   loadAllNotesEffect$ = createEffect(() =>
     this.actions$.pipe(
-      tap(() => console.log('Effect')),
       ofType(loadAllNotes),
       exhaustMap(() => this.notesService.getAllNotes()
         .pipe(
-          tap(() => console.log('Loading Books')),
+          tap(() => console.log('Loading Notes')),
           map((notes) => loadAllNotesSuccess({ notes })),
           catchError(() => EMPTY)
       ))

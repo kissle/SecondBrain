@@ -22,3 +22,8 @@ export const loadAllNotesFailure = createAction(
   '[Notes] Load All Notes Failure',
   props<{ error: any }>()
 );
+
+export const selectNote = createAction(
+  '[Notes] Select Note',
+  props<{ id: number }>()
+);

@@ -1,0 +1,11 @@
+<p>notes-list works!</p>
+<div *ngFor="let note of notes$ | async">
+    <h2>
+       <!-- <a routerLink="note.id">{{ note.title }}</a> -->
+         <a [routerLink]="['/notes', note.id]">{{ note.title }} - {{ note.id }}</a>
+
+    </h2>
+    <p>
+        {{ note.content }}
+    </p>
+</div>
