@@ -19,3 +19,8 @@ export const selectAllNotes = createSelector(
   selectNotesState,
   (state: fromNotes.NoteState) => state.notes
 );
+
+export const selectAllNoteIds = createSelector(
+  selectNotesState,
+  (state: fromNotes.NoteState) => state.notes.map(note => note.id)
+);

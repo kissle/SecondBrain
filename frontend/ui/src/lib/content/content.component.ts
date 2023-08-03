@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject, takeUntil, tap } from 'rxjs';
 
@@ -8,14 +8,16 @@ import { Subject, takeUntil, tap } from 'rxjs';
   styleUrls: ['./content.component.scss'],
 })
 export class ContentComponent implements OnDestroy {
-  myControl = new FormControl('');
-  label = 'Fancy Input';
+  @Input() label = 'Fancy Input';
   blur$ = new Subject<void>();
   destroy$ = new Subject<void>();
+  @Input() placeholder = 'Tell us some text'
+  @Input() control: FormControl = new FormControl();
+
 
   constructor() {
     this.blur$.pipe(
-      tap(() => console.log(`Value on blur: ${this.myControl.value}`)),
+      tap(() => console.log(`Value on blur: ${this.control.value}`)),
       takeUntil(this.destroy$)
     ).subscribe();
   }

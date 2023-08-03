@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 export default {
   title: 'InputComponent',
@@ -11,6 +12,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
+        CommonModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         MatInputModule,

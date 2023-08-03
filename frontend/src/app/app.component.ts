@@ -7,13 +7,15 @@ import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NotesService } from './services/notes.service';
 import { environment } from '../../environment';
+import { UiModule } from '@frontend/ui';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    UiModule
   ],
   selector: 'frontend-root',
   templateUrl: './app.component.html',

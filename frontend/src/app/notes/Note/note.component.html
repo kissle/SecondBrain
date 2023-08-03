@@ -1,9 +1,27 @@
-<p>note works!</p>
-<h2>ID: {{ id$ | async }}</h2>
+<div class="p-4">
+  <h2>ID: {{ id$ | async }}</h2>
+  
+  <h3>Title: {{ (note$ | async)?.title }}</h3>
+  <p>Content: {{ (note$ | async)?.content }}</p>
+  <p>{{ noteIds$ | async | json }}</p>
 
-<!-- Output the different properties of note$ in different elements -->
-<h3>Title: {{ (note$ | async)?.title }}</h3>
-<p>Content: {{ (note$ | async)?.content }}</p>
+  <div class="buttons">
+    <button class="danger" (click)="deleteNote()">Delete</button>
+    <!-- <button (click)="updateNote()">Update</button> -->
+  </div>
+  
+  <div class="new-note">
+    <form formGroup="noteGroup">
+      <frontend-input [control]="noteForm" label="Title"></frontend-input>
+      <frontend-content [control]="contentForm" label="Content"></frontend-content>
+    </form>
 
+    <h2>
+      {{ title$ | async }}
+    </h2>
+    <p>
+      {{ content$ | async }}
+    </p>
+   </div>
+  </div>
 
-<!-- {{ notes$ | async | json }} -->
