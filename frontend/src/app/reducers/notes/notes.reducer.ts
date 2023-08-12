@@ -6,6 +6,7 @@ import { NotesActions, deleteNote, deleteNoteSuccess, deselectNote, loadAllNotes
 export const notesFeatureKey = 'notes';
 
 export interface NoteState {
+  initialized: boolean;
   status: string;
   selectedNote: Note | null;
   notes: Note[];
@@ -14,6 +15,7 @@ export interface NoteState {
 }
 
 export const initialState: NoteState = {
+  initialized: false,
   status: 'initial',
   selectedNote: null,
   notes: [],
@@ -27,7 +29,8 @@ export const reducer = createReducer(
   on(loadAllNotesSuccess, (state, { notes }) => ({
     ...state,
     notes: notes,
-    status: 'success'
+    status: 'success',
+    initialized: true
   })), 
   on(selectNote, (state, { id }) => ({
     ...state,
@@ -59,7 +62,6 @@ export const reducer = createReducer(
     status: 'success',
     notes: state.notes.filter(note => note.id !== state.noteIdToDelete),
     noteIdToDelete: null,
-    selectedNote: null,
   })),
 );
 

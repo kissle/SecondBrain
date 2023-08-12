@@ -1,8 +1,15 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromNotes from '../../reducers/notes/notes.reducer';
 
+
+
 export const selectNotesState = createFeatureSelector<fromNotes.NoteState>(
   fromNotes.notesFeatureKey
+);
+
+export const selectInitialized = createSelector(
+  selectNotesState,
+  (state: fromNotes.NoteState) => state.initialized
 );
 
 export const selectStatus = createSelector(
@@ -23,4 +30,9 @@ export const selectAllNotes = createSelector(
 export const selectAllNoteIds = createSelector(
   selectNotesState,
   (state: fromNotes.NoteState) => state.notes.map(note => note.id)
+);
+
+export const selectNoteIdToDelete = createSelector(
+  selectNotesState,
+  (state: fromNotes.NoteState) => state.noteIdToDelete
 );
