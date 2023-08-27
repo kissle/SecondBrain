@@ -10,6 +10,9 @@ class RelationsContainer(models.Model):
     
     class Meta:
         unique_together = ['content_type', 'object_id']
+        
+    def __str__(self):
+        return f'{self.content_type} - {self.object_id}: {self.content_object}'
     
 class Relation(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
