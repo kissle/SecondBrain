@@ -8,3 +8,4 @@ from .podcast_episodes import *
 from .books import *
 from .authors import *
 from .youtube_videos import *
+from .relations import *

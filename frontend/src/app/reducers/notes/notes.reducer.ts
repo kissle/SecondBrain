@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on, select } from '@ngrx/store';
 
 import { Note } from '../../models/note.model';
-import { NotesActions, deleteNote, deleteNoteSuccess, deselectNote, loadAllNotesSuccess, saveNote, saveNoteSuccess, selectNote } from '../../actions/notes/notes.actions';
+import { NotesActions, addNote, deleteNote, deleteNoteSuccess, deselectNote, loadAllNotesSuccess, saveNote, saveNoteSuccess, selectNote, updateNote } from '../../actions/notes/notes.actions';
 
 export const notesFeatureKey = 'notes';
 
@@ -62,6 +62,17 @@ export const reducer = createReducer(
     status: 'success',
     notes: state.notes.filter(note => note.id !== state.noteIdToDelete),
     noteIdToDelete: null,
+  })),
+  on(updateNote, (state, { id, note }) => ({
+    ...state,
+    status: 'updating',
+    selectedNote: note,
+    notes: state.notes.map(n => n.id === id ? note : n),
+  })),
+  on(addNote, (state, { note }) => ({
+    ...state,
+    status: 'adding',
+    notes: [...state.notes, note],
   })),
 );
 

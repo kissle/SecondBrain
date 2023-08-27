@@ -47,3 +47,13 @@ export const deleteNote = createAction(
 export const deleteNoteSuccess = createAction(
   '[Notes] Delete Note Success'
 );
+
+export const updateNote = createAction(
+  '[Notes] Update Note',
+  props<{ id: number, note: Note }>()
+)
+
+export const addNote = createAction(
+  '[Notes] Add Note',
+  props<{ note: Note }>()
+)

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'polymorphic',
     'corsheaders',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,7 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+}
