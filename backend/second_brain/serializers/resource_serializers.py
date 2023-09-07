@@ -27,16 +27,11 @@ class ResourcesPolymorphicSerializer(serializers.Serializer):
         raise serializers.ValidationError("Unknown object type")
 
 class ResourceSerializer(serializers.ModelSerializer):
-    related = serializers.SerializerMethodField()
     
     class Meta:
         model = Resource
         fields = '__all__'
         depth = 1
-        
-    def get_related(self, obj):
-        depth = self.context.get('depth', 0)
-        return ResourcesPolymorphicSerializer(obj.related.all(), many=True, context={'depth': depth+1}).data
     
 class NoteSerializer(ResourceSerializer):
 
