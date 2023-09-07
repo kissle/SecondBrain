@@ -74,11 +74,3 @@ class RelationSerialize(serializers.ModelSerializer):
         model = Relation
         fields = '__all__'
         depth = 1
-        
-class RelationsContainerSerialize(serializers.ModelSerializer):
-    relations = RelationSerialize(many=True)
-    
-    class Meta:
-        model = Relation
-        fields = '__all__'
-        depth = 1

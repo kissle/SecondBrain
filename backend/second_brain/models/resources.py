@@ -1,8 +1,7 @@
 from django.db import models
 from polymorphic.models import PolymorphicModel
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.fields import GenericRelation
 
-from ..models.relations import RelationsContainer
 
 class Resource(PolymorphicModel):
     related = models.ManyToManyField('self', blank=True)
@@ -11,7 +10,7 @@ class Resource(PolymorphicModel):
         return self.__class__.__name__ 
         
 class ResourceInterface(models.Model):
-    relations_container = GenericRelation('RelationsContainer')
+    relations_container = GenericRelation('Relation')
     
     class Meta:
         abstract = True

@@ -8,6 +8,4 @@ class Book(TextResource, ResourceInterface):
     authors = models.ManyToManyField(Author, blank=True)
     isbn = models.CharField(max_length=13, blank=True)
     
-    def __str__(self):
-        return self.title
     

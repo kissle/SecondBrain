@@ -1,7 +1,7 @@
 # urls for second_brain app
 from django.urls import path, include
 from rest_framework import routers
-from .views import NoteViewSet, BookViewSet, YoutubeVideoViewSet, AuthorViewSet, PodcastViewSet, PodcastEpisodeViewSet, ContentTypeViewSet, RelationViewSet, RelationsContainerViewSet
+from .views import NoteViewSet, BookViewSet, YoutubeVideoViewSet, AuthorViewSet, PodcastViewSet, PodcastEpisodeViewSet, ContentTypeViewSet, RelationViewSet
 
 router = routers.DefaultRouter()
 router.register(r'notes', NoteViewSet)
@@ -12,7 +12,6 @@ router.register(r'podcast_episodes', PodcastEpisodeViewSet)
 router.register(r'youtube_videos', YoutubeVideoViewSet)
 router.register(r'contenttypes', ContentTypeViewSet)
 router.register(r'relations', RelationViewSet)
-router.register(r'relationscontainers', RelationsContainerViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
