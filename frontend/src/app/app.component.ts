@@ -16,7 +16,7 @@ import { UiModule } from '@frontend/ui';
     RouterModule,
     HttpClientModule,
     UiModule,
-    CommonModule
+    CommonModule,
   ],
   selector: 'frontend-root',
   templateUrl: './app.component.html',

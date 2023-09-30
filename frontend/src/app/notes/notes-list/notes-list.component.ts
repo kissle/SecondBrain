@@ -1,10 +1,9 @@
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectAllNotes, selectInitialized } from '../../selectors/notes/notes.selectors';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Note } from '../../models/note.model';
 import { deleteNote, deselectNote, loadAllNotes } from '../../actions/notes/notes.actions';
-import { Book } from '../../models/book.model';
 
 @Component({
   selector: 'frontend-notes-list',
