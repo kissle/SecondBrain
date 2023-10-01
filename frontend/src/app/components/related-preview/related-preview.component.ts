@@ -14,8 +14,6 @@ export class RelatedPreviewComponent implements AfterViewInit, OnDestroy {
   @Input() resourceType!: string;
   @Input() resourceID!: number;
   resource!: Observable<IResource | null>;
-  @Input() updateRelatedResources!: EventEmitter<Observable<IResource[]>>;
-  @Input() related$!: Observable<IResource[]>;
 
   @ViewChild('toComponentContainer', { read: ViewContainerRef }) toComponentContainer!: ViewContainerRef;
   @ViewChild('fromComponentContainer', { read: ViewContainerRef }) fromComponentContainer!: ViewContainerRef;
@@ -57,7 +55,6 @@ export class RelatedPreviewComponent implements AfterViewInit, OnDestroy {
   }
     
   ngAfterViewInit() {  
-    console.log(this.toComponentContainer, this.fromComponentContainer)
     this.rel$ = this.relationService.getRelationsForResource(this.resourceType, this.resourceID)
     .pipe(
       tap(value => console.log('getRelationsForResource', value)),
