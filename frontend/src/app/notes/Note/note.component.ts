@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, map, takeUntil, tap } from 'rxjs';
 import { Note } from '../../models/note.model'
-import { selectAllNoteIds, selectSelectedNote, selectStatus } from '../../selectors/notes/notes.selectors';
+import { selectSelectedNote, selectStatus } from '../../selectors/notes/notes.selectors';
 import { deleteNote, loadAllNotes, selectNote } from '../../actions/notes/notes.actions';
 
 @Component({
@@ -15,7 +15,6 @@ export class NoteComponent implements OnInit, OnDestroy {
   id$: Observable<number>;
   id = 0;
   note$: Observable<Note | null> = this.store.select(selectSelectedNote)
-  noteIds$: Observable<number[] | null> = this.store.select(selectAllNoteIds)
   status$: Observable<string> = this.store.select(selectStatus)  
 
   title$: Observable<string> | undefined

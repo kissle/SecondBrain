@@ -3,7 +3,6 @@
 
   <h3>Title: {{ (note$ | async)?.title }}</h3>
   <p>Content: {{ (note$ | async)?.content }}</p>
-  <p>{{ noteIds$ | async | json }}</p>
 
   <div class="space-x-2 my-2">
     <button
