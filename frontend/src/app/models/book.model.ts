@@ -2,31 +2,23 @@ import { PolyMorphicCType } from "./polymorphic_ctype.model";
 import { IResource } from "./resource.interface";
 
 export interface IBook extends IResource{
-    id: number;
-    title: string;
     subtitle: string;
-    summary: string;
+    isbn: string;
 }
 
 export class Book implements IBook {
     id: number;
     title: string;
     subtitle: string;
-    summary: string;
-    content_type: string;
-    related: IResource[];
-    url: string;
     polymorphic_ctype: PolyMorphicCType;
+    isbn: string;
 
-    constructor(id: number, title: string, subtitle: string,summary: string, url: string, polymorphic_ctype: PolyMorphicCType) {
+    constructor(id: number, title: string, subtitle: string, polymorphic_ctype: PolyMorphicCType, isbn: string) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
-        this.summary = summary;
-        this.content_type = 'book';
-        this.related = [];
-        this.url = url;
         this.polymorphic_ctype = polymorphic_ctype;
+        this.isbn = isbn;
     }
 
     isNote(): boolean {
@@ -35,10 +27,6 @@ export class Book implements IBook {
     isBook(): boolean {
         return false
     }
-
-    addRelated(resource: IResource): void {
-        this.related.push(resource);
-    }
 }
 
-export const MockBook = new Book(0, 'Sopies Welt','Die Geschichte der Philosophie', 'Dieses Buch handelt von Sophies Erkunden der Philosophie.', '', new PolyMorphicCType(12, 'second_brain', 'book'))
+export const MockBook = new Book(0, 'Sopies Welt','Die Geschichte der Philosophie', new PolyMorphicCType(12, 'second_brain', 'book'), '978-3-492-23616-7')

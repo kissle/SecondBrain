@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
 import { IResource } from '../../models/resource.interface';
-import { Observable, Subject, debounceTime, map, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { COMPONENT_MAPPING } from '../../models/component_mapping';
+import { RelationService } from '../../services/relations.service';
+import { IRelationsDto } from '../../models/relations.model';
 
 @Component({
   selector: 'frontend-related-preview',
@@ -9,56 +11,62 @@ import { COMPONENT_MAPPING } from '../../models/component_mapping';
   styleUrls: ['./related-preview.component.scss']
 })
 export class RelatedPreviewComponent implements AfterViewInit, OnDestroy {
+  @Input() resourceType!: string;
+  @Input() resourceID!: number;
   resource!: Observable<IResource | null>;
   @Input() updateRelatedResources!: EventEmitter<Observable<IResource[]>>;
   @Input() related$!: Observable<IResource[]>;
 
-  @ViewChild('componentContainer', { read: ViewContainerRef })
-  componentContainer!: ViewContainerRef;
+  @ViewChild('toComponentContainer', { read: ViewContainerRef }) toComponentContainer!: ViewContainerRef;
+  @ViewChild('fromComponentContainer', { read: ViewContainerRef }) fromComponentContainer!: ViewContainerRef;
+
+  rel$!: Observable<IRelationsDto>;
+
+  constructor(private readonly relationService: RelationService) { }
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  loadRelatedObjects(resource: IResource[]) {
-    this.componentContainer.clear();
-    resource.forEach((related) => {
+  buildToRelationPreviews(relations: IRelationsDto) {
+    const relatedObjects = relations.to
+    this.toComponentContainer.clear();
+    relatedObjects.forEach((related) => {
       const associatedObjectType = related.polymorphic_ctype.model;
       const componentType = COMPONENT_MAPPING[associatedObjectType];
       console.log(componentType)
       if (componentType) {
-        const componentRef = this.componentContainer.createComponent(componentType);
+        const componentRef = this.toComponentContainer.createComponent(componentType);
+        componentRef.instance.resource = related;
+      }
+      }
+    )
+  }
+
+  buildfromRelationPreviews(relations: IRelationsDto) {
+    const relatedObjects = relations.from
+    this.fromComponentContainer.clear();
+    relatedObjects.forEach((related) => {
+      const associatedObjectType = related.polymorphic_ctype.model;
+      const componentType = COMPONENT_MAPPING[associatedObjectType];
+      console.log(componentType)
+      if (componentType) {
+        const componentRef = this.fromComponentContainer.createComponent(componentType);
         componentRef.instance.resource = related;
       }
       }
     )
   }
     
-  ngAfterViewInit() {   
-    console.log('init RelatedPreviewComponent')
-    this.related$.pipe(
-      tap(value => console.log('reaslkdfsf', value)),
-      map((related) => {    
-          this.loadRelatedObjects(related)
-        }),
-      tap(value => console.log(value)),
+  ngAfterViewInit() {  
+    console.log(this.toComponentContainer, this.fromComponentContainer)
+    this.rel$ = this.relationService.getRelationsForResource(this.resourceType, this.resourceID)
+    .pipe(
+      tap(value => console.log('getRelationsForResource', value)),
+      tap(value => this.buildToRelationPreviews(value)),
+      tap(value => this.buildfromRelationPreviews(value)),
       takeUntil(this.destroy$)
-    ).subscribe();
+    )
 
-    this.updateRelatedResources.pipe(
-      tap(value => console.log('updateRelatedResources', value)),
-      tap(value => {
-        this.related$ = value;
-        this.related$.pipe(
-          tap(value => console.log('reaslkdfsf', value)),
-          map((related) => {    
-              this.loadRelatedObjects(related)
-            }),
-          tap(value => console.log(value)),
-          takeUntil(this.destroy$)
-        ).subscribe();
-    
-      }),
-      takeUntil(this.destroy$)
-    ).subscribe();
+    this.rel$.subscribe()
   }
 
   ngOnDestroy() {

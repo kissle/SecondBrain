@@ -1,35 +1,21 @@
 <div class="p-4">
   <h2>ID: {{ id$ | async }}</h2>
-  
+
   <h3>Title: {{ (note$ | async)?.title }}</h3>
   <p>Content: {{ (note$ | async)?.content }}</p>
   <p>{{ noteIds$ | async | json }}</p>
 
   <div class="space-x-2 my-2">
-    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="deleteNote()">Delete</button>
-    <button *ngIf="!editMode" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="changeEditMode()">Edit</button>
+    <button
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+      (click)="deleteNote()"
+    >
+      Delete
+    </button>
   </div>
 
   <frontend-note-save></frontend-note-save>
-  
-  <div *ngIf="editMode" class="new-note">
-    <form formGroup="noteGroup">
-      <frontend-input [control]="noteForm" label="Title"></frontend-input>
-      <frontend-content  [control]="contentForm" label="Content"></frontend-content>
-    </form>
 
-    <h2>
-      {{ title$ | async }}
-    </h2>
-    <p>
-      {{ content$ | async }}
-    </p>
-    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="changeEditMode()">Finish Edit</button>
-   </div>
-   <div class="space-x-2 my-2">
-     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="changeResource()">AddNote</button>
-    </div>
-    
-    <frontend-related-preview [updateRelatedResources]="updateRelatedResourcesEvent" [related$]="relations$"></frontend-related-preview>
-  </div>
-
+  <frontend-related-preview [resourceType]="'note'" [resourceID]="id">
+  </frontend-related-preview>
+</div>
