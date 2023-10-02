@@ -5,6 +5,8 @@ from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Relation
 from ..serializers import RelationSerialize, NoteSerializer, BookSerializer
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 
 class RelationViewSet(viewsets.ModelViewSet):
     queryset = Relation.objects.all()
@@ -41,3 +43,21 @@ class RelationViewInterface():
                 relations['from'].append(BookSerializer(relation.from_content_object).data)
             
         return Response(relations)
+    
+    @extend_schema(
+        request=NoteSerializer,
+        responses={201: NoteSerializer}
+    )
+    @action(detail=True, methods=['post'], url_path='add_note', url_name='add_note')
+    def add_note(self, request, pk=None):
+        obj = self.get_object()
+        
+        note = NoteSerializer(data=request.data)
+        if note and note.is_valid():
+            note.save()
+            relation = Relation.objects.create(from_content_object=obj, to_content_object=note.instance)
+            relation.save()
+            print(relation)
+            print(note)
+
+        return Response()
