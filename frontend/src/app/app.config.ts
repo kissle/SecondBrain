@@ -9,7 +9,8 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import * as fromNotes from './reducers/notes/notes.reducer'
 import { NotesEffects } from './effects/notes/notes.effects';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { CsrfInterceptorFn } from './services/csrf.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState('notes', fromNotes.notesFeature.reducer),
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
-    provideHttpClient()
+    provideHttpClient(withInterceptors([CsrfInterceptorFn])),
+    
   ],
 };

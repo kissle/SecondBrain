@@ -3,8 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { catchError,  exhaustMap, map,  tap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { deleteNote, deleteNoteSuccess, loadAllNotes, loadAllNotesSuccess, saveNote, saveNoteSuccess } from '../../actions/notes/notes.actions';
+import { addNoteToResource, deleteNote, deleteNoteSuccess, loadAllNotes, loadAllNotesSuccess, saveNote, saveNoteSuccess } from '../../actions/notes/notes.actions';
 import { NotesService } from '../../services/notes.service';
+import { RelationService } from '../../services/relations.service';
 
 @Injectable()
 export class NotesEffects {
@@ -47,6 +48,22 @@ export class NotesEffects {
       ))
     )
     )
+
+  addNoteToResourceEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addNoteToResource),
+      exhaustMap(({ content_type, id, note }) => this.relationService.addNoteToResource(content_type, id, note)
+        .pipe(
+          tap(() => console.log('Saving Note')),
+          map((note) => saveNoteSuccess({ note })),
+          catchError(() => EMPTY)
+      ))
+    )
+    )
     
-  constructor(private actions$: Actions, private notesService: NotesService) {}
+  constructor(
+    private actions$: Actions, 
+    private notesService: NotesService,
+    private relationService: RelationService
+    ) {}
 }

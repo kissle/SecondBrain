@@ -18,18 +18,19 @@ export class NotesService {
   ) { }
 
   getAllNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(`/api/notes`)
+    return this.http.get<Note[]>(`/api/notes/`)
   }
 
   getNoteById(id: number): Observable<Note> {
-    return this.http.get<Note>(`/api/notes/${id}`)
+    return this.http.get<Note>(`/api/notes/${id}/`)
   }
 
   createNewNote(note: Note): Observable<Note> {
+    console.log('asdf', note)
     return this.http.post<Note>(`/api/notes/`, note, httpOptions)
   }
 
   deleteNoteById(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/notes/${id}`)
+    return this.http.delete<void>(`/api/notes/${id}/`)
   }
 }

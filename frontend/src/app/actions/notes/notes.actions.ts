@@ -57,3 +57,8 @@ export const addNote = createAction(
   '[Notes] Add Note',
   props<{ note: Note }>()
 )
+
+export const addNoteToResource = createAction(
+  '[Notes] Add Note To Resource',
+  props<{ content_type: string, id: number, note: Note }>()
+)

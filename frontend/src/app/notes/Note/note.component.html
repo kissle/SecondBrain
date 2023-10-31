@@ -13,7 +13,7 @@
     </button>
   </div>
 
-  <frontend-note-save></frontend-note-save>
+  <frontend-note-save [resource]="note$ | async"></frontend-note-save>
 
   <frontend-related-preview [resourceType]="'note'" [resourceID]="id">
   </frontend-related-preview>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { IResource } from '../../models/resource.interface';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { COMPONENT_MAPPING } from '../../models/component_mapping';
@@ -10,7 +10,7 @@ import { IRelationsDto } from '../../models/relations.model';
   templateUrl: './related-preview.component.html',
   styleUrls: ['./related-preview.component.scss']
 })
-export class RelatedPreviewComponent implements AfterViewInit, OnDestroy {
+export class RelatedPreviewComponent implements OnDestroy, OnChanges {
   @Input() resourceType!: string;
   @Input() resourceID!: number;
   resource!: Observable<IResource | null>;
@@ -21,6 +21,18 @@ export class RelatedPreviewComponent implements AfterViewInit, OnDestroy {
   rel$!: Observable<IRelationsDto>;
 
   constructor(private readonly relationService: RelationService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.rel$ = this.relationService.getRelationsForResource(this.resourceType, this.resourceID)
+    .pipe(
+      tap(value => console.log('getRelationsForResource', value)),
+      tap(value => this.buildToRelationPreviews(value)),
+      tap(value => this.buildfromRelationPreviews(value)),
+      takeUntil(this.destroy$)
+    )
+
+    this.rel$.subscribe()
+  }
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -52,18 +64,6 @@ export class RelatedPreviewComponent implements AfterViewInit, OnDestroy {
       }
       }
     )
-  }
-    
-  ngAfterViewInit() {  
-    this.rel$ = this.relationService.getRelationsForResource(this.resourceType, this.resourceID)
-    .pipe(
-      tap(value => console.log('getRelationsForResource', value)),
-      tap(value => this.buildToRelationPreviews(value)),
-      tap(value => this.buildfromRelationPreviews(value)),
-      takeUntil(this.destroy$)
-    )
-
-    this.rel$.subscribe()
   }
 
   ngOnDestroy() {

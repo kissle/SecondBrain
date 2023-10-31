@@ -18,12 +18,24 @@ export class ButtonComponent {
   get dynamicColors(): string {
     switch (this.type) {
       case 'primary':
+        if (this.disabled) {
+          return 'bg-blue-200 text-white cursor-not-allowed';
+        }
         return 'bg-blue-500 hover:bg-blue-700 text-white';
       case 'secondary':
+        if (this.disabled) {
+          return 'bg-gray-200 text-white cursor-not-allowed';
+        }
         return 'bg-gray-500 hover:bg-gray-700 text-white';
       case 'danger':
+        if (this.disabled) {
+          return 'bg-red-200 text-white cursor-not-allowed';
+        }
         return 'bg-red-500 hover:bg-red-700 text-white';
       default:
+        if (this.disabled) {
+          return 'bg-blue-200 text-white cursor-not-allowed';
+        }
         return 'bg-blue-500 hover:bg-blue-700 text-white';
     }
   }

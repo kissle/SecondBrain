@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class BookPreviewComponent {
   @Input() book: Book = MockBook
-  resource!: IBook
+  @Input() resource!: IBook
 
 
   constructor(private router: Router) { }

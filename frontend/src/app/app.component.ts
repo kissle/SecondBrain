@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectInitialized, selectNoteIdToDelete, selectStatus } from './selectors/notes/notes.selectors';
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { NotesService } from './services/notes.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../environment';
 import { UiModule } from '@frontend/ui';
+import { CsrfInterceptor } from './services/csrf.interceptor';
 
 @Component({
   standalone: true,
@@ -22,10 +22,11 @@ import { UiModule } from '@frontend/ui';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [
-    NotesService,
+    // NotesService,
     {
       provide: APP_BASE_HREF, useValue: environment.baseUrl
-    }
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true}
   ]
 })
 export class AppComponent {

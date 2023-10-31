@@ -1,9 +1,11 @@
+import { IAuthor } from "./authors.model";
 import { PolyMorphicCType } from "./polymorphic_ctype.model";
 import { IResource } from "./resource.interface";
 
 export interface IBook extends IResource{
     subtitle: string;
     isbn: string;
+    authors: IAuthor[]
 }
 
 export class Book implements IBook {
@@ -12,13 +14,15 @@ export class Book implements IBook {
     subtitle: string;
     polymorphic_ctype: PolyMorphicCType;
     isbn: string;
+    authors: IAuthor[];
 
-    constructor(id: number, title: string, subtitle: string, polymorphic_ctype: PolyMorphicCType, isbn: string) {
+    constructor(id: number, title: string, subtitle: string, polymorphic_ctype: PolyMorphicCType, isbn: string, authors: IAuthor[] = []) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.polymorphic_ctype = polymorphic_ctype;
         this.isbn = isbn;
+        this.authors = authors;
     }
 
     isNote(): boolean {

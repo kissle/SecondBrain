@@ -1,9 +1,14 @@
 <div class="mt-4 py-4 px-2 space-y-4 bg-sky-100 shadow-lg rounded-md">
     <h3 class="py-2 px-2 font-semibold text-lg">{{ resource.title }} - {{ resource.subtitle }}</h3>
-    <div class="py-2 px-2">
-        <button class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded" (click)="showDetails(book.id)">Show Details</button>
+    <div class="flex row gap-2">
+        <p *ngFor="let author of resource.authors">{{ author.first_name }} {{ author.last_name }}</p>
     </div>
-
-    {{ resource | json }}
+    <div>
+        <small>ISBN: {{ resource.isbn }}</small>
+    </div>
+    
+    <div class="py-2 px-2">
+        <frontend-button (click)="showDetails(book.id)">Show Details</frontend-button>
+    </div>
 </div>
 

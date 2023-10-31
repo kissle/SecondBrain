@@ -19,8 +19,7 @@ export class RelationService {
   ) { }
 
   getRelationsForResource(content_type: string, id: number): Observable<IRelationsDto> {
-    console.log('getRelationsForResource', content_type, id)
-    const url = `/api/${content_type}s/${id}/relations`
+    const url = `/api/${content_type}s/${id}/relations/`
     return this.http.get<IRelationsDto>(url, {
       headers: new HttpHeaders({
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -36,19 +35,14 @@ export class RelationService {
     )
   }
 
-  getAllNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(`/api/notes`)
-  }
-
-  getNoteById(id: number): Observable<Note> {
-    return this.http.get<Note>(`/api/notes/${id}`)
-  }
-
-  createNewNote(note: Note): Observable<Note> {
-    return this.http.post<Note>(`/api/notes/`, note, httpOptions)
-  }
-
-  deleteNoteById(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/notes/${id}`)
+  addNoteToResource (content_type: string, id: number, note: Note): Observable<Note> {
+    const url = `/api/${content_type}s/${id}/add_note/`
+    return this.http.post<Note>(url, note, httpOptions).pipe(
+      tap((newNote: Note) => console.log(`added note w/ id=${newNote.id}`)),
+      catchError(error => {
+          console.error('Error:', error);
+          throw error;
+      })
+    )
   }
 }
