@@ -26,4 +26,15 @@ export class BooksService {
       })
     )
   }
+
+  public getBookById (id: number): Observable<Book> {
+    return this.http.get<Book>(`/api/books/${id}`)
+    .pipe(
+      tap(data => console.log('Data received:', data)),
+      catchError(error => {
+          console.error('Error:', error);
+          throw error;
+      })
+    )
+  }
 }
