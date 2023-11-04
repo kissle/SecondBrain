@@ -1,2 +1,19 @@
-<h1>SecondBrain</h1>
-<router-outlet></router-outlet>
+<frontend-header [title]="'SecondBrain'"></frontend-header>
+
+<div class="container flex mx-auto bg-sky-200 p-4 gap-4">
+    <div class="w-32">
+        <p>Status: {{ status$ | async }}</p>
+        <p>Initialisiert: {{ initialized$ | async }}</p>
+        <ul>
+            <li>
+                <a routerLink="/notes" class="underline">Notes</a>
+            </li>
+            <li>
+                <a routerLink="/books" class="underline">Books</a>
+            </li>
+        </ul>
+    </div>
+    <div class="h-screen">
+        <router-outlet></router-outlet>
+    </div>
+</div>

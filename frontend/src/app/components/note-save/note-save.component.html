@@ -1,0 +1,5 @@
+<frontend-dynamic-form [fields]="formFields" (formSaved)="updateForm($event)"></frontend-dynamic-form>
+<div class="buttons">
+    <frontend-button *ngIf="resource !== null && resource !== undefined" type="primary" (click)="addNoteToResource()" [disabled]="form === undefined">AddNote</frontend-button>
+    <frontend-button type="primary" (click)="saveNote()" [disabled]="form === undefined">Save</frontend-button>
+</div>

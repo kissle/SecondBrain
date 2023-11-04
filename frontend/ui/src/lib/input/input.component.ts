@@ -17,7 +17,7 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
 export class InputComponent implements ControlValueAccessor {
   @Input() label: string | undefined;
   @Input() type: 'text' | 'number' | 'url' = 'text';
-  @Input() control: FormControl = new FormControl();
+  @Input() control: FormControl = new FormControl() ;
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() blur = new EventEmitter<void>();
 

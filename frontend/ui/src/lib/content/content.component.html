@@ -1,2 +1,10 @@
 <p>Main Content</p>
-<frontend-input [label]="label" [control]="myControl" (blur)="onBlur()"></frontend-input>
+<!-- <frontend-input [label]="label" [control]="myControl" (blur)="onBlur()"></frontend-input> -->
+
+<mat-form-field class="example-full-width">
+    <mat-label>{{ label }}</mat-label>
+    <textarea matInput 
+    [placeholder]="placeholder" 
+    [formControl]="control" 
+    (blur)="onBlur()"></textarea>
+</mat-form-field>

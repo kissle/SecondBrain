@@ -1,0 +1,37 @@
+<div class="form-container">
+  <div class="formGroup"> 
+    <form class="m-2" [formGroup]="form">
+      <ng-container *ngFor="let field of fields; let i = index">
+        <div class="input-group" *ngIf="field.type !== 'checkbox' && field.type !== 'select'">
+          <label [for]="'input-' + i">{{ field.label || field.name }}</label>
+          <input
+            [type]="field.type"
+            [id]="'input-' + i"
+            [formControlName]="field.name"
+            *ngIf="field.type !== 'textarea'"
+          />
+          <textarea
+            [formControlName]="field.name"
+            *ngIf="field.type === 'textarea'"
+          ></textarea>
+        </div>
+    
+        <div class="m-2" *ngIf="field.type === 'checkbox'">
+          <label>
+            <input type="checkbox" [formControlName]="field.name" [id]="'input-' + i" />
+            {{ field.label || field.name }}
+          </label>
+        </div>
+    
+        <div class="m-2" *ngIf="field.type === 'select'">
+          <label [for]="'input-' + i">{{ field.label || field.name }}</label>
+          <select [formControlName]="field.name" [id]="'input-' + i">
+            <option *ngFor="let option of field.options" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+      </ng-container>
+      </form>
+    </div>
+</div>

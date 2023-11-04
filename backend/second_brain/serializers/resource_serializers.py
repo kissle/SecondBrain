@@ -1,32 +1,71 @@
 from django.urls import reverse
 from rest_framework import serializers
-from ..models import Resource
+
+from ..models import Resource, Note, Book, YoutubeVideo, Podcast, PodcastEpisode, Relation
         
-class ResourceSerializer(serializers.HyperlinkedModelSerializer):
-    related = serializers.SerializerMethodField()
+class ResourcesPolymorphicSerializer(serializers.Serializer):
+    
+    def to_representation(self, instance):
+        depth = self.context.get('depth', 0)
+        
+        if depth > 1:
+            return None
+        
+        new_context = self.context.copy()
+        new_context['depth'] = depth + 1
+        
+        if isinstance(instance, Note):
+            return NoteSerializer(instance, context=new_context).data
+        elif isinstance(instance, Book):
+            return BookSerializer(instance, context=new_context).data
+        elif isinstance(instance, YoutubeVideo):
+            return YoutubeVideoSerializer(instance, context=new_context).data
+        elif isinstance(instance, Podcast):
+            return PodcastSerializer(instance, context=new_context).data
+        elif isinstance(instance, PodcastEpisode):
+            return PodcastEpisodeSerializer(instance, context=new_context).data
+        raise serializers.ValidationError("Unknown object type")
+
+class ResourceSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Resource
-        # fields = ['id', 'related', 'url']
         fields = '__all__'
         depth = 1
     
-    url = serializers.HyperlinkedIdentityField(
-        view_name='resource-detail',
-        lookup_field='pk'
-    )
-    
-    def get_related(self, obj):
-        # Check if the object has a related
-        if obj.related is not None:            
-            # Get the request from the serializer context
-            request = self.context['request']
-            
-            # Construct the URL using reverse function of Django REST Framework
-            urls = [request.build_absolute_uri(reverse(f'{related.__class__.__name__.lower()}-detail', args=[related.pk])) for related in obj.related.all()]
-            
-            return urls
-        else:
-            return []
+class NoteSerializer(ResourceSerializer):
 
-    
+    class Meta:
+        model = Note
+        fields = '__all__'
+        depth = 1
+        
+class BookSerializer(ResourceSerializer):
+    class Meta:
+        model = Book
+        fields = '__all__'
+        depth = 1
+        
+class YoutubeVideoSerializer(ResourceSerializer):
+    class Meta:
+        model = YoutubeVideo
+        fields = '__all__'
+        depth = 1
+        
+class PodcastSerializer(ResourceSerializer):
+    class Meta:
+        model = Podcast
+        fields = '__all__'
+        depth = 1
+        
+class PodcastEpisodeSerializer(ResourceSerializer):
+    class Meta:
+        model = PodcastEpisode
+        fields = '__all__'
+        depth = 1
+        
+class RelationSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = Relation
+        fields = '__all__'
+        depth = 1

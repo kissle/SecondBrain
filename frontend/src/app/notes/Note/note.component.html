@@ -1,0 +1,20 @@
+<div class="p-4">
+  <h2>ID: {{ id$ | async }}</h2>
+
+  <h3>Title: {{ (note$ | async)?.title }}</h3>
+  <p>Content: {{ (note$ | async)?.content }}</p>
+
+  <div class="space-x-2 my-2">
+    <button
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+      (click)="deleteNote()"
+    >
+      Delete
+    </button>
+  </div>
+
+  <frontend-note-save [resource]="note$ | async"></frontend-note-save>
+
+  <frontend-related-preview [resourceType]="'note'" [resourceID]="id">
+  </frontend-related-preview>
+</div>
